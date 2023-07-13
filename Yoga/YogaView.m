@@ -14,7 +14,11 @@
     if(self = [super initWithFrame:frame]){
         
         self.flex.define(^(Flex *make){
-            
+            make.direction(YGFlexDirectionRow)
+                .layoutDirection(YGDirectionLTR)
+                .define(^(Flex *flex){
+                    flex.addView();
+                });
             
         });
     }
