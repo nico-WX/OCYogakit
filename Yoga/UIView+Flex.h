@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface UIView (Flex)
-@property(nonatomic,strong)Flex *flex;
+@property(nonatomic,strong, readonly)Flex *flex;
 @end
 
 NS_ASSUME_NONNULL_END
