@@ -10,7 +10,6 @@
 
 @interface Flex ()
 
-@property(weak, readonly, nonatomic) UIView *view;
 @property(strong, nonatomic) YGLayout *yoga;
 
 @end
@@ -61,6 +60,7 @@
         return self;
     };
 }
+
 - (Flex * _Nonnull (^)(void))markDirty {
     return ^(){
         [self.yoga markDirty];
@@ -74,40 +74,146 @@
     };
 }
 
-- (Flex * _Nonnull (^)(YGFlexDirection))direction {
-    return ^(YGFlexDirection dir){
-        self.yoga.flexDirection = dir;
+
+
+
+FlexItemIMP(YGFlexDirection, direction, flexDirection)
+FlexItemIMP(YGWrap, wrap, flexWrap)
+FlexItemIMP(YGDirection, layoutDirection, direction)
+FlexItemIMP(YGJustify, justifyContent, justifyContent)
+FlexItemIMP(YGAlign, alignItems, alignItems)
+FlexItemIMP(YGAlign, alignSelf, alignSelf)
+FlexItemIMP(YGAlign, alignContent, alignContent)
+FlexItemIMP(CGFloat, grow, flexGrow)
+FlexItemIMP(CGFloat, shrink, flexShrink)
+
+FlexItemIMPFloat(CGFloat, basis, flexBasis)
+FlexItemIMPFloat(CGFloat, width, width)
+FlexItemIMPFloat(CGFloat, height, height)
+
+FlexItemIMPPercent(CGFloat, percentWidth, width)
+FlexItemIMPPercent(CGFloat, percentHeight, height)
+
+- (Flex * _Nonnull (^)(CGSize))size {
+    return ^(CGSize value){
+        self.yoga.width = YGPointValue(value.width);
+        self.yoga.height = YGPointValue(value.height);
         return self;
     };
 }
 
-- (Flex * _Nonnull (^)(YGWrap))wrap {
-    return ^(YGWrap wrap){
-        self.yoga.flexWrap = wrap;
+FlexItemIMPFloat(CGFloat, minWidth, minWidth)
+FlexItemIMPFloat(CGFloat, maxWidth, maxWidth)
+FlexItemIMPPercent(CGFloat, minWidthPercent, minWidth)
+FlexItemIMPPercent(CGFloat, maxWidthPercent, maxWidth)
+
+FlexItemIMPFloat(CGFloat, minHeight, minHeight)
+FlexItemIMPFloat(CGFloat, maxHeight, maxHeight)
+FlexItemIMPPercent(CGFloat, minHeightPercent, minHeight)
+FlexItemIMPPercent(CGFloat, maxHeightPercent, maxHeight)
+
+FlexItemIMP(CGFloat, aspectRatio, aspectRatio)
+-(Flex * _Nonnull (^)(UIImageView * _Nonnull))aspectRatioOf {
+    return ^(UIImageView *view){
+        if(view.image){
+            CGSize size = view.image.size;
+            self.yoga.aspectRatio = size.width / size.height ;
+        }
         return self;
     };
 }
 
-- (Flex * _Nonnull (^)(YGDirection))layoutDirection {
-    return ^(YGDirection dir){
-        self.yoga.direction = dir;
+FlexItemIMP(YGPositionType, position, position)
+FlexItemIMPFloat(CGFloat, left, left)
+FlexItemIMPFloat(CGFloat, right, right)
+FlexItemIMPFloat(CGFloat, top, top)
+FlexItemIMPFloat(CGFloat, bottom, bottom)
+FlexItemIMPFloat(CGFloat, start, start)
+FlexItemIMPFloat(CGFloat, end, end)
+
+- (Flex * _Nonnull (^)(CGFloat))horizontally {
+    return ^(CGFloat value){
+        self.yoga.left = YGPointValue(value);
+        self.yoga.right = YGPointValue(value);
+        return self;
+    };
+}
+-(Flex * _Nonnull (^)(CGFloat))vertically {
+    return ^(CGFloat value){
+        self.yoga.top = YGPointValue(value);
+        self.yoga.bottom = YGPointValue(value);
+        return self;
+    };
+}
+- (Flex * _Nonnull (^)(CGFloat))all {
+    return ^(CGFloat value){
+        self.yoga.left = YGPointValue(value);
+        self.yoga.right = YGPointValue(value);
+        self.yoga.top = YGPointValue(value);
+        self.yoga.bottom = YGPointValue(value);
+        return self;
+    };
+}
+FlexItemIMPFloat(CGFloat, marginTop, marginTop)
+FlexItemIMPFloat(CGFloat, marginLeft, marginLeft)
+FlexItemIMPFloat(CGFloat, marginBottom, marginBottom)
+FlexItemIMPFloat(CGFloat, marginRight, marginRight)
+FlexItemIMPFloat(CGFloat, marginHorizontal, marginHorizontal)
+FlexItemIMPFloat(CGFloat, marginVertical, marginVertical)
+
+-(Flex * _Nonnull (^)(UIEdgeInsets))margin {
+    return ^(UIEdgeInsets value){
+        self.yoga.marginTop = YGPointValue(value.top);
+        self.yoga.marginLeft = YGPointValue(value.left);
+        self.yoga.marginBottom = YGPointValue(value.bottom);
+        self.yoga.marginRight = YGPointValue(value.right);
         return self;
     };
 }
 
-- (Flex * _Nonnull (^)(YGJustify))justifyContent{
-    return ^(YGJustify just){
-        self.yoga.justifyContent = just;
+FlexItemIMPFloat(CGFloat, marginAll, margin)
+
+FlexItemIMPFloat(CGFloat, paddingTop, paddingTop)
+FlexItemIMPFloat(CGFloat, paddingLeft, paddingLeft)
+FlexItemIMPFloat(CGFloat, paddingBottom, paddingBottom)
+FlexItemIMPFloat(CGFloat, paddingRight, paddingRight)
+FlexItemIMPFloat(CGFloat, paddingHorizontal, paddingHorizontal)
+FlexItemIMPFloat(CGFloat, paddingVertical, paddingVertical)
+
+- (Flex * _Nonnull (^)(UIEdgeInsets))padding {
+    return ^(UIEdgeInsets value){
+        self.yoga.paddingTop = YGPointValue(value.top);
+        self.yoga.paddingLeft = YGPointValue(value.left);
+        self.yoga.paddingBottom = YGPointValue(value.bottom);
+        self.yoga.paddingRight = YGPointValue(value.right);
         return self;
     };
 }
 
-- (Flex * _Nonnull (^)(YGAlign))alignItems {
-    return ^(YGAlign align){
-        self.yoga.alignItems = align;
+FlexItemIMPFloat(CGFloat, paddingAll, padding)
+
+- (Flex * _Nonnull (^)(UIColor * _Nonnull))backgroundColor {
+    return ^(UIColor *color){
+        [self.view setBackgroundColor:color];
         return self;
     };
 }
+- (Flex * _Nonnull (^)(CGFloat))cornerRadius {
+    return ^(CGFloat value){
+        self.view.layer.cornerRadius = value;
+        return self;
+    };
+}
+
+- (Flex * _Nonnull (^)(BOOL))hidden {
+    return ^(BOOL hidden){
+        self.yoga.display = hidden ? YGDisplayNone : YGDisplayFlex;
+        return self;
+    };
+    
+}
+
+
 
 #pragma mark -Method
 
@@ -124,5 +230,10 @@
 
 
 
+
+@end
+
+
+@interface YGLayout (ADD)
 
 @end
